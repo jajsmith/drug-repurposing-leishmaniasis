@@ -9,8 +9,8 @@ df = pd.read_csv('in-trials.csv')
 identifiers = list(df['zinc_id'])
 smiles = list(df['smiles'])
 
-if not os.path.exists("../Ligands"):
-    os.mkdir("../Ligands")
+if not os.path.exists("../LIGANDs"):
+    os.mkdir("../LIGANDs")
 
 for i in range(len(identifiers)):
     smile = smiles[i]
@@ -19,8 +19,8 @@ for i in range(len(identifiers)):
         mol = pybel.readstring("smi", smile)
         mol.addh()
         mol.localopt(steps=500)
-        mol.write("pdbqt", "../Ligands/{}.pdbqt".format(identifier), overwrite=True)
-        mol.write("sdf", "../Ligands/{}.sdf".format(identifier), overwrite=True)
+        mol.write("pdbqt", "../LIGANDs/{}.pdbqt".format(identifier), overwrite=True)
+        mol.write("sdf", "../LIGANDs/{}.sdf".format(identifier), overwrite=True)
     except:
         continue
 
@@ -39,8 +39,8 @@ for i in range(len(identifiers)):
         mol = pybel.readstring("smi", smile)
         mol.addh()
         mol.localopt(steps=500)
-        mol.write("pdbqt", "../Ligands/{}.pdbqt".format(identifier), overwrite=True)
-        mol.write("sdf", "../Ligands/{}.sdf".format(identifier), overwrite=True)
+        mol.write("pdbqt", "../LIGANDs/{}.pdbqt".format(identifier), overwrite=True)
+        mol.write("sdf", "../LIGANDs/{}.sdf".format(identifier), overwrite=True)
     except:
         continue
 
@@ -59,8 +59,8 @@ for i in range(len(identifiers)):
         mol = pybel.readstring("smi", smile)
         mol.addh()
         mol.localopt(steps=500)
-        mol.write("pdbqt", "../Ligands/{}.pdbqt".format(identifier), overwrite=True)
-        mol.write("sdf", "../Ligands/{}.sdf".format(identifier), overwrite=True)
+        mol.write("pdbqt", "../LIGANDs/{}.pdbqt".format(identifier), overwrite=True)
+        mol.write("sdf", "../LIGANDs/{}.sdf".format(identifier), overwrite=True)
     except:
         continue
 

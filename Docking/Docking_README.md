@@ -1,5 +1,8 @@
 # Dependencies
 
+### OS
+This pipeline has been tested on Linux Ubuntu 18.04
+
 ### Software (Linux)
 * `Open Babel`
 * `AutoDock Vina` 
@@ -40,7 +43,47 @@ time python indaba_drugs/extract_indaba_drug_files.py
 
 After running the above command, you will see the following folder
 
-* `Ligands` will contain .pdbqt files of all drugs included in the Indaba challenge (in-trials, Drug Central, and DrugBank). These will be used as inputs on the docking runs with AutoDock vina
+* `LIGANDs` will contain .pdbqt files of all drugs included in the Indaba challenge (in-trials, Drug Central, and DrugBank). These will be used as inputs on the docking runs with AutoDock vina
 
-## Step 3 - Run docking screening
-TODO
+## Step 3 - Download AutoDock Vina
+
+```bash
+wget http://vina.scripps.edu/download/autodock_vina_1_1_2_linux_x86.tgz -O ~/Downloads/autodock_vina_1_1_2_linux_x86.tgz
+
+tar -xvzf ~/Downloads/autodock_vina_1_1_2_linux_x86.tgz
+```
+
+## Step 4a - Run docking for a protein-ligand pair
+
+You should now be able to dock any protein-ligand pair from the molecule files generated above. For example, you could try to dock the structure 6RXC with the in-trial drug ZINC000029747110 as follows:
+
+```bash
+python dock_protein_ligand_pair.py -p 6RXC -l ZINC000029747110
+```
+
+The .pdbqt containing the ligand poses found by vina will be stored in a folder called `Docking-Results`
+Note that you can use the argument `-v` to specify a different location of the Vina binary executable if you decided to install AutoDock vina in a location other than `~/Downloads`
+
+The top score from all poses found by vina will be recorded in the file called `Docking-Score-Report.csv`. Note that the size of this file will grow as you continue to run docking pairs
+
+## Step 4b - Run a virtual screening with several protein-ligand pairs
+
+If you want to dock several protein-drug pairs, you can do so by creating a comma-separated file of protein-ligand pairs (with no header, see `example_pairs.csv` for an example) and pass it as an argument to the `run_virtual_screening.py` script.
+
+```bash
+python run_virtual_screening.py -i example_pairs.csv
+```
+
+The .pdbqt containing the ligand poses found by vina will be stored in a folder called `Docking-Results`
+
+Also, the top score from all poses found by vina for each pair will be recorded in the file called `Docking-Score-Report.csv`. Note that the size of this file will grow as you continue to run docking pairs
+
+## Step 5 - Convert docking results to a Zindi-ready submission PDB file
+
+Once you have docked the pairs you selected, you can create Zindi-ready submission files with 
+
+```bash
+python get_zindi_files_from_vina_results_folder.py
+```
+
+The submission-ready files will be stored in `Zindi-Ready-Files` in .pdb format. These can be uploaded to Zindi's competition portal for scoring
