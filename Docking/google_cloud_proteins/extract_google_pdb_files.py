@@ -12,15 +12,15 @@ f.close()
 
 print("Downloading original PDB files from Google Cloud...")
 
-if not os.path.exists("./PDBs"):
-    os.mkdir("PDBs")
+if not os.path.exists("../PDBs"):
+    os.mkdir("../PDBs")
 
 count = 0
 for file in pdb_files:
     url = f"https://storage.googleapis.com/indaba-challenge/{file}"
     try:
         r = requests.get(url, allow_redirects=True)
-        f = open(f"PDBs/{file}", 'wb')
+        f = open(f"../PDBs/{file}", 'wb')
         f.write(r.content)
         f.close()
         count += 1
@@ -43,15 +43,15 @@ def lineBelongsToChain(line, chain="A"):
     else:
         return False
 
-original_pdbs = os.listdir("PDBs")
+original_pdbs = os.listdir("../PDBs")
 original_pdbs = [file for file in original_pdbs if ".apo.pdb" in file]
 
-if not os.path.exists("./single-chain-PDBs"):
-    os.mkdir("single-chain-PDBs")
+if not os.path.exists("../single-chain-PDBs"):
+    os.mkdir("../single-chain-PDBs")
 
 for file in original_pdbs:
-    f = open("PDBs/" + file, 'r')
-    new_file = "single-chain-PDBs/" + file.split('.')[0] + "sc.clean.pdb"
+    f = open("../PDBs/" + file, 'r')
+    new_file = "../single-chain-PDBs/" + file.split('.')[0] + "sc.clean.pdb"
     g = open(new_file, 'w')
     line = f.readline()
     while len(line) > 0:
@@ -72,18 +72,18 @@ def getSequenceFromPDB(filename):
     seq = str(record.seq)
     return seq
 
-protein_files = os.listdir("single-chain-PDBs")
+protein_files = os.listdir("../single-chain-PDBs")
 print(f"There are {len(protein_files)} single chain protein PDB files!")
 
-if not os.path.exists("./Sequences"):
-    os.mkdir("Sequences")
+if not os.path.exists("../Sequences"):
+    os.mkdir("../Sequences")
 
-f = open("Sequences/pdb_sequences.fa", 'w')
+f = open("../Sequences/pdb_sequences.fa", 'w')
 
 print("Writing FASTA file with all sequences...")
 
 for file in protein_files:
-    filename = f"single-chain-PDBs/{file}"
+    filename = f"../single-chain-PDBs/{file}"
     try:
         seq = getSequenceFromPDB(filename)
     except:
@@ -97,29 +97,29 @@ f.close()
 
 print("Generating PDBQT files...")
 
-if not os.path.exists("./PDBQTs"):
-    os.mkdir("PDBQTs")
+if not os.path.exists("../PDBQTs"):
+    os.mkdir("../PDBQTs")
 
-protein_files = os.listdir("single-chain-PDBs")
+protein_files = os.listdir("../single-chain-PDBs")
 
 for file in protein_files:
-    filename = f"single-chain-PDBs/{file}"
+    filename = f"../single-chain-PDBs/{file}"
     
     # Step 1 - Get raw PDBQT file
-    command_1 = f"obabel -ipdb {filename} -opdbqt > ./PDBQTs/tmp.pdbqt"
+    command_1 = f"obabel -ipdb {filename} -opdbqt > ../PDBQTs/tmp.pdbqt"
     os.system(command_1)
 
     # Step 2 - Clean up protein's PDBQT file
-    pdbqt_file = "PDBQTs/" + file.replace('.pdb','.pdbqt')
-    command_2 = f'grep "ATOM" ./PDBQTs/tmp.pdbqt > {pdbqt_file}'
+    pdbqt_file = "../PDBQTs/" + file.replace('.pdb','.pdbqt')
+    command_2 = f'grep "ATOM" ../PDBQTs/tmp.pdbqt > {pdbqt_file}'
     os.system(command_2)
 
 #%% Create Configuration files for AutoDock vina
 
 print("Creating AutoDock Vina configuration files")
 
-if not os.path.exists("./CONFIGs"):
-    os.mkdir("CONFIGs")
+if not os.path.exists("../CONFIGs"):
+    os.mkdir("../CONFIGs")
 
 # Function to retrieve atom coordinates
 def getSearchBoxCoordinatesFromPDB(pdb_file):
@@ -188,8 +188,8 @@ exhaustiveness = 8"""
     print(f"Finished writing {filename}!")
 
 # Read arguments
-input_pdb_folder = "single-chain-PDBs"
-output_config_folder = "CONFIGs"
+input_pdb_folder = "../single-chain-PDBs"
+output_config_folder = "../CONFIGs"
 
 pdb_files = os.listdir(input_pdb_folder)
 pdb_files = [file for file in pdb_files if '.pdb' in file]
