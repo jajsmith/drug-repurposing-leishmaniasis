@@ -1,0 +1,12 @@
+.ipynb_checkpoints/
+
+# Docking
+CONFIGs/
+Docking-Results/
+Docking-Score-Report.csv
+LIGANDs/
+PDBQTs/
+PDBs/
+Sequences/
+single-chain-PDBs/
+Zindi-Ready-Files
