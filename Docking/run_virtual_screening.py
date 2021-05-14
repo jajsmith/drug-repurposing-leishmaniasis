@@ -1,9 +1,4 @@
-import openbabel as ob
-from openbabel import pybel
-import pubchempy as pcp
-import pandas as pd
 import argparse
-import pyrosetta
 import os
 import sys
 import subprocess
@@ -40,5 +35,6 @@ f.close()
 for pair in pairs:
     protein, ligand = pair.split(',')
     command = f"python dock_protein_ligand_pair.py -p {protein} -l {ligand} -v {VINA_PATH}"
+    os.system(command)
 
 print("FINISHED WITH SUCCESS!")
