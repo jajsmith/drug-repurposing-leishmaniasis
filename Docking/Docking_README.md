@@ -101,7 +101,7 @@ Note that you can use the argument `-v` to specify a different location of the V
 
 The top score from all poses found by vina will be recorded in the file called `Docking-Score-Report.csv`. Note that the size of this file will grow as you continue to run docking pairs
 
-## Step 3b - Run a virtual screening with several protein-ligand pairs
+## Step 3b - Run a virtual screening with several protein-ligand pairs for top candidates
 
 If you want to dock several protein-drug pairs, you can do so by creating a comma-separated file of protein-ligand pairs (with no header, see `example_pairs.csv` for an example) and pass it as an argument to the `run_virtual_screening.py` script.
 
@@ -111,7 +111,14 @@ python run_virtual_screening.py -i example_pairs.csv
 
 The .pdbqt containing the ligand poses found by vina will be stored in a folder called `Docking-Results`
 
-Also, the top score from all poses found by vina for each pair will be recorded in the file called `Docking-Score-Report.csv`. Note that the size of this file will grow as you continue to run docking pairs
+Also, the top score from all poses found by vina for each pair will be recorded in the file called `Docking-Score-Report.csv`. Note that the size of this file will grow as you continue to run docking pairs.
+
+For the competition we first run a script to filter out pairs that scored poorly using the DeepPurpose binding affinity prediction. Then we run the virtual screening on the top pairs:
+
+```bash
+python select_top_candidates.py
+python run_virtual_screening.py -i final.csv
+```
 
 ## Step 4 - Convert docking results to a Zindi-ready submission PDB file
 

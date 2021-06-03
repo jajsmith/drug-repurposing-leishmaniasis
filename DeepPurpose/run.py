@@ -7,10 +7,7 @@ import wget
 from zipfile import ZipFile
 from time import time
 import sys
-print(sys.version)
-
-
-
+#print(sys.version)
 
 def repurpose(target, target_name=None,
               X_repurpose=None,
@@ -30,6 +27,9 @@ def repurpose(target, target_name=None,
               frac=[0.7, 0.1, 0.2],
               agg='agg_mean_max',
               output_len=30):
+    
+    print("Target Name: ", target_name)
+    
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
 
@@ -180,6 +180,7 @@ def repurpose(target, target_name=None,
 
         print('---------------')
         if target_name is not None:
+            print(target_name)
             print('Drug Repurposing Result for ' + target_name)
         if model.binary:
             table_header = ["Rank", "Drug Name", "Target Name", "Interaction",
@@ -312,6 +313,7 @@ def load_drug(path, n=94053):
 #           'CHEM_6372',
 #           save_dir='./tmp')
 
+"""
 sid, smile = zip(*pd.read_csv("final/chem.csv").to_numpy().tolist())
 google, gseq = zip(*pd.read_csv("final/g_seq.csv").to_numpy().tolist())
 rcsb, rseq = zip(*pd.read_csv("final/r_seq.csv").to_numpy().tolist())
@@ -319,8 +321,9 @@ rcsb, rseq = zip(*pd.read_csv("final/r_seq.csv").to_numpy().tolist())
 # target, target_name=None,
 #               X_repurpose=None,
 #               drug_names=None
-repurpose(gseq[:3], target_name=google[:3], X_repurpose=smile[:3], drug_names=sid[:3], save_dir='./final/google')
-# repurpose(rseq, rcsb, smile, sid, save_dir='./final/rcsb')
+#repurpose(gseq[:3], target_name=google[:3], X_repurpose=smile[:3], drug_names=sid[:3], save_dir='./final/google')
+#repurpose(rseq, rcsb, smile, sid, save_dir='./final/rcsb')
+for target_name in google:
+    repurpose(gseq, target_name, smile, sid, save_dir='./final/google_'+str(target_name))
 
-
-
+"""

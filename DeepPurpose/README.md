@@ -14,6 +14,8 @@ conda env create -f environment.yml
 conda activate deeppurpose
 ```
 
+Protein and Ligand lists can be recreated using `process.py`.
+
 ## Generating Predictions
 
 ### Step 1. Running Predictions
@@ -25,5 +27,7 @@ python run.py
 ### Step 2. Final Output Ranking
 
 ```
-python j.py
+python aggregate.py
 ```
+
+This prepared the final set of ligands and proteins for filtering in the docking stage.
